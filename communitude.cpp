@@ -28,6 +28,7 @@ bool tc = false;//input true community or not
 bool fix = false;//input fix sets or not
 bool rinit = false;//use a random vertex as an initial state
 string iterfile = "iter.txt";
+string outfile="result.txt";
 bool comflag=true;
 bool modflag=true;
 bool dsflag=true;
@@ -254,7 +255,7 @@ set<int> peeling(double (*f)(int,int,int)){
   return res;
 }
 
-set<int> local_search(double (*f)(int,int,int)){
+set<int> local_search(double (*f)(int,int,int), string s){
   auto const begin = std::chrono::system_clock::now();
   set<int> initial;
   set<int> res;
@@ -288,7 +289,8 @@ set<int> local_search(double (*f)(int,int,int)){
     double score = f(cn,cm,cdeg);
     int repeatnum=0;
     ofstream ofs(iterfile,ios::app);
-    if(tc)ofs<<endl<<endl;
+    //if(tc)ofs<<endl<<endl;
+    ofs<<endl<<s<<endl;
     ofs.close();
     while(loop!=0){
       repeatnum++;
@@ -344,7 +346,7 @@ set<int> local_search(double (*f)(int,int,int)){
   char output[256];
   sprintf(output,"time.txt");
   ofstream ofs(output,ios::app);
-  ofs << n <<" "<< m <<" "<< t << endl;
+  ofs <<s<<": "<< n <<" "<< m <<" "<< t << endl;
   ofs.close();
 
   cout<<"score:"<<max_score<<", cn:"<<res.size()<<endl;
@@ -417,6 +419,10 @@ int main(int argc, char *argv[]){
       i++;
       load_restrict(argv[i]);
     }
+    else if(s == "-o"){
+      i++;
+      outfile=string(argv[i]);
+    }
     else if(s == "-r"){
       i++;
       rep=atoi(argv[i]);
@@ -478,10 +484,12 @@ int main(int argc, char *argv[]){
     cout<<endl;
   }
   set<int> res;    
+  ofstream ofs(outfile,ios::app);
+
   if(comflag){
     cout<<endl<<"communitude"<<endl;
     remove("data/com.group");
-    res=local_search(com);
+    res=local_search(com,"communitude");
     output(res,"data/com.group");
     if(tc)ofs << jaccard(res,trueset) << " ";
     for(int v:res)removedset[v]=true;
@@ -495,7 +503,7 @@ int main(int argc, char *argv[]){
   if(modflag){
     cout<<endl<<"modularity"<<endl;
     remove("data/mod.group");
-    res=local_search(mod);
+    res=local_search(mod,"modularity");
     output(res,"data/mod.group");
     if(tc)ofs << jaccard(res,trueset) << " ";
     for(int v:res)removedset[v]=true;
@@ -509,7 +517,7 @@ int main(int argc, char *argv[]){
   if(dsflag){
     cout<<endl<<"densest subgraph"<<endl;
     remove("data/ds.group");
-    res=local_search(densest);
+    res=local_search(densest,"densest subgraph");
     output(res,"data/ds.group");
     if(tc)ofs << jaccard(res,trueset) << " ";
     for(int v:res)removedset[v]=true;
@@ -523,7 +531,7 @@ int main(int argc, char *argv[]){
   if(oqcflag){
     cout<<endl<<"oqc"<<endl;
     remove("data/oqc.group");
-    res=local_search(oqc);
+    res=local_search(oqc,"OQC");
     output(res,"data/oqc.group");
     if(tc)ofs << jaccard(res,trueset) << " ";
     for(int v:res)removedset[v]=true;
@@ -536,7 +544,7 @@ int main(int argc, char *argv[]){
   if(conductanceflag){
     cout<<endl<<"conductance"<<endl;
     remove("data/conductance.group");
-    res=local_search(conductance);
+    res=local_search(conductance,"conductance");
     output(res,"data/conductance.group");
     if(tc)ofs << jaccard(res,trueset) << " ";
     for(int v:res)removedset[v]=true;
