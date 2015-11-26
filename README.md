@@ -15,10 +15,10 @@ http://dl.acm.org/citation.cfm?id=2806555&CFID=733215621&CFTOKEN=42619121
 ## Usage
 ### Single community model
     ./generate -n 1000 -c 100 -in 0.4 -out 0.01 -single
-    ./communitude -t data/group.dat -o result.txt -r 10    
+    ./communitude data/network.dat -t data/group.dat -o result.txt -r 10    
 
 ### l-partition model
     ./generate -n 1000 -c 100 -in 0.4 -out 0.01 -multi
-    ./communitude -t data/group.dat -f data/fix.dat -o result.txt -r 10    
+    ./communitude data/network.dat -t data/group.dat -f data/fix.dat -o result.txt -r 10    
 
 
