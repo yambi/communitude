@@ -376,7 +376,7 @@ void output(set<int> s, string output){
 
 
 void usage(char* s){
-  cout<<"usage: "<<s<<" network.dat [options]"<<endl;
+  cout<<"usage: "<<s<<" NETWORK_FILE [options]"<<endl;
   cout<<"  -t TRUE_COMMUNITY_FILE"<<endl;
   cout<<"  -f FIXED_ELEMENTS_FILE"<<endl;
   cout<<"  -o RESULT_FILE"<<endl;
