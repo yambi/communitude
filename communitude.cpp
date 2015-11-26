@@ -297,7 +297,6 @@ set<int> local_search(double (*f)(int,int,int), string s){
       ofstream ofs(iterfile,ios::app);
       ofs<<repeatnum<<": "<<score<<endl;
       ofs.close();
-      cout<<repeatnum<<": score="<<score<<", cn="<<cn<<", cm="<<cm<<", exchagne="<<loop<<endl;
       loop=0;
       vector<int> rl = randomperm();
       for(int i:rl)if(!(fixset[i] or removedset[i])){
@@ -330,6 +329,7 @@ set<int> local_search(double (*f)(int,int,int), string s){
             }
           }
         }
+      cout<<repeatnum<<": score="<<score<<", cn="<<cn<<", cm="<<cm<<", exchagne="<<loop<<endl;
     }
     if(max_score<score){
       max_score=score;
@@ -554,6 +554,6 @@ int main(int argc, char *argv[]){
     if(tc)ofs << "* ";
   }
   
-  ofs << endl;
+  if(tc)ofs << endl;
   ofs.close();
 }
