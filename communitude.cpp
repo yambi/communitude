@@ -159,25 +159,6 @@ double conductance(int cn, int cm, int cdeg){
 }
 
 
-void zscore(vector<int> vs){
-  sort(vs.begin(),vs.end());
-  int cn = vs.size();
-  int cm = 0;
-  int cdeg = 0;
-  for(int v:vs){
-    for(int u:edges[v]){
-      if(binary_search(vs.begin(),vs.end(),u))cm++;
-      cdeg++;
-    }
-  }
-  cm/=2;
-  cout<<"z-score_r: "<<zscore_r(cn,cm,cdeg)<<", z-score_d: "<<zscore_d(cn,cm,cdeg)<<", #nodes="<<cn<<", #edges="<<cm<<", deg.="<<cdeg<<endl;
-  cout<<"\t";
-  for(int i:vs)cout<<i<<" ";
-  cout<<endl;
-}
-
-
 set<int> peeling(double (*f)(int,int,int)){
   map<int,int> next;for(int v: vs)next[v]=-1;
   map<int,int> prev;for(int v: vs)prev[v]=-1;
@@ -228,7 +209,6 @@ set<int> peeling(double (*f)(int,int,int)){
   double maxf = 0;//maximum value
   int maxi=r, maxm, maxdeg;
   for(int i=r;i>0;--i){//# of remaining vertices
-    //z score
     double cf = f(i,cm,cdeg);
     //cout<<i<<": "<<zr<<", "<<cm<<", "<<cdeg<<endl;
     if(cf>maxf){
@@ -506,9 +486,9 @@ int main(int argc, char *argv[]){
 
   if(comflag){
     cout<<endl<<"communitude"<<endl;
-    remove("data/zscore_d.group");
+    remove("data/com.group");
     res=local_search(com);
-    output(res,"data/zscore_d.group");
+    output(res,"data/com.group");
     if(tc)ofs << jaccard(res,trueset) << " ";
     for(int v:res)removedset[v]=true;
     cout<<endl;
@@ -519,8 +499,8 @@ int main(int argc, char *argv[]){
   }
 
   if(modflag){
-    cout<<endl<<"score_d (modularity)"<<endl;
-    remove("data/score_d.group");
+    cout<<endl<<"modularity"<<endl;
+    remove("data/mod.group");
     res=local_search(mod);
     output(res,"data/mod.group");
     if(tc)ofs << jaccard(res,trueset) << " ";
