@@ -8,5 +8,11 @@ http://dl.acm.org/citation.cfm?id=2806555&CFID=733215621&CFTOKEN=42619121
 
 # Compiling
 `g++ -std=c++11 generate.cpp -o generate`
+
 `g++ -std=c++11 communitude.cpp -o communitude`
+
+
+
+
+
 
