@@ -28,7 +28,6 @@ bool tc = false;//input true community or not
 bool fix = false;//input fix sets or not
 bool rinit = false;//use a random vertex as an initial state
 string iterfile = "iter.txt";
-string outfile="result.txt";
 bool comflag=true;
 bool modflag=true;
 bool dsflag=true;
@@ -313,6 +312,7 @@ set<int> local_search(double (*f)(int,int,int)){
               cm+=delta_m;
               cdeg+=edges[i].size();
               community.insert(i);
+              loop++;
             }
           }
           //remove
@@ -324,9 +324,9 @@ set<int> local_search(double (*f)(int,int,int)){
               cm-=delta_m;
               cdeg-=edges[i].size();
               community.erase(i);
+              loop++;
             }
           }
-          loop++;
         }
     }
     if(max_score<score){
@@ -413,10 +413,6 @@ int main(int argc, char *argv[]){
         trueset.insert(k);
       }
     }
-    else if(s == "-o"){
-      i++;
-      outfile=string(argv[i]);
-    }
     else if(s == "-i"){
       i++;
       load_restrict(argv[i]);
@@ -482,8 +478,6 @@ int main(int argc, char *argv[]){
     cout<<endl;
   }
   set<int> res;    
-  ofstream ofs(outfile,ios::app);
-
   if(comflag){
     cout<<endl<<"communitude"<<endl;
     remove("data/com.group");
